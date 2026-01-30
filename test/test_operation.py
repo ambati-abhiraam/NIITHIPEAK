@@ -22,7 +22,7 @@ from file_downloader_segmentor.segmentor import images_segmentor
 
 
 # Configuration
-TEST_DATA_DIR = BASE_DIR / "test"
+TEST_DATA_DIR = BASE_DIR 
 DOWNLOAD_DIR = TEST_DATA_DIR / "download"
 DATABASE_DIR = BASE_DIR.parent / "database"
 
