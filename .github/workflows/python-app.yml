@@ -21,9 +21,9 @@ jobs:
         python-version: '3.12'
     
     - name: Install UV
-      run: |
-        curl -LsSf https://astral.sh/uv/install.sh | sh
-        echo "$HOME/.cargo/bin" >> $GITHUB_PATH
+      uses: astral-sh/setup-uv@v5
+      with:
+        enable-cache: true  # This speeds up future runs significantly
     
     - name: Install system dependencies
       run: |
@@ -32,7 +32,8 @@ jobs:
     
     - name: Install Python dependencies
       run: |
-        uv pip install --system pytest pandas pillow PyPDF2 pytesseract
+        # Added 'requests' to the list below
+        uv pip install --system pytest pandas pillow PyPDF2 pytesseract requests
     
     - name: Create test directories
       run: |
@@ -44,6 +45,7 @@ jobs:
       env:
         CI: true
       run: |
+        # Ensure the path points to where your tests actually are
         pytest test/ -v -s
     
     - name: Upload test artifacts (on failure)
