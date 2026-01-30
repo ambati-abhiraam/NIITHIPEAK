@@ -1,0 +1,57 @@
+name: CI Pipeline
+
+on:
+  pull_request:
+    branches: [ main ]
+  push:
+    branches: [ main ]
+
+jobs:
+  test:
+    name: Run Tests
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Set up Python 3.12
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.12'
+    
+    - name: Install UV
+      run: |
+        curl -LsSf https://astral.sh/uv/install.sh | sh
+        echo "$HOME/.cargo/bin" >> $GITHUB_PATH
+    
+    - name: Install system dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y tesseract-ocr poppler-utils
+    
+    - name: Install Python dependencies
+      run: |
+        uv pip install --system pytest pandas pillow PyPDF2 pytesseract
+    
+    - name: Create test directories
+      run: |
+        mkdir -p tests/test/pdfs
+        mkdir -p tests/test/download
+        mkdir -p database
+    
+    - name: Run tests
+      env:
+        CI: true
+      run: |
+        pytest tests/ -v -s
+    
+    - name: Upload test artifacts (on failure)
+      if: failure()
+      uses: actions/upload-artifact@v4
+      with:
+        name: test-outputs
+        path: |
+          tests/test/download/
+          database/
+        retention-days: 7
