@@ -28,34 +28,32 @@ jobs:
     - name: Install system dependencies
       run: |
         sudo apt-get update
-        sudo apt-get install -y tesseract-ocr poppler-utils
+        sudo apt-get install -y \
+          tesseract-ocr \
+          tesseract-ocr-eng \
+          poppler-utils \
+          libmagic1 \
+          libxml2 \
+          libxslt1-dev
     
-    - name: Install Python dependencies
+    - name: Install Python dependencies from pyproject.toml
       run: |
-        uv pip install --system pytest pandas pillow PyPDF2 pytesseract pdf2image
+        uv sync
     
-    - name: Verify test files exist
+    - name: Verify installation
       run: |
-        echo "=== Checking test directory structure ==="
-        ls -la test/
-        echo ""
-        echo "=== Checking test/pdfs/ ==="
-        ls -la test/pdfs/
-        echo ""
-        echo "=== Checking test.csv ==="
-        cat test/test.csv
+        uv pip list
     
     - name: Create required directories
       run: |
         mkdir -p test/download
         mkdir -p database
-        echo "✅ Created test/download and database directories"
     
     - name: Run tests
       env:
         CI: true
       run: |
-        pytest test/test_operation.py -v -s
+        uv run pytest test/test_operation.py -v -s
     
     - name: Upload test artifacts (on failure)
       if: failure()
