@@ -44,7 +44,7 @@ jobs:
       env:
         CI: true
       run: |
-        pytest tests/ -v -s
+        pytest test/ -v -s
     
     - name: Upload test artifacts (on failure)
       if: failure()
