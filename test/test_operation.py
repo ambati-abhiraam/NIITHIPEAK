@@ -27,8 +27,8 @@ DOWNLOAD_DIR = TEST_DATA_DIR / "download"
 DATABASE_DIR = BASE_DIR.parent / "database"
 
 # Test files
-URL_CSV = TEST_DATA_DIR / "test_urls.csv"
-RAW_CSV = TEST_DATA_DIR / "test_raw.csv"
+URL_CSV = TEST_DATA_DIR / "test.csv"
+RAW_CSV = TEST_DATA_DIR / "test.csv"
 TEST_PDF_NAME = "01_CYBERMEDIA_25012026224121_cmilNPad.pdf"
 EXTRACT_TEST_PDF_PATH = TEST_DATA_DIR / "pdfs" / "test.pdf"
 OUTPUT_CSV = DATABASE_DIR / "test_unprocessed.csv"
