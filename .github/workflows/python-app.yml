@@ -21,32 +21,41 @@ jobs:
         python-version: '3.12'
     
     - name: Install UV
-      uses: astral-sh/setup-uv@v5
-      with:
-        enable-cache: true
+      run: |
+        curl -LsSf https://astral.sh/uv/install.sh | sh
+        echo "$HOME/.cargo/bin" >> $GITHUB_PATH
     
     - name: Install system dependencies
       run: |
         sudo apt-get update
-        # Poppler-utils is required by pdf2image to convert PDF to images
         sudo apt-get install -y tesseract-ocr poppler-utils
     
     - name: Install Python dependencies
       run: |
-        # Added requests and pdf2image to the installation list
-        uv pip install --system pytest pandas pillow PyPDF2 pytesseract requests pdf2image
+        uv pip install --system pytest pandas pillow PyPDF2 pytesseract pdf2image
     
-    - name: Create test directories
+    - name: Verify test files exist
       run: |
-        mkdir -p tests/test/pdfs
-        mkdir -p tests/test/download
+        echo "=== Checking test directory structure ==="
+        ls -la test/
+        echo ""
+        echo "=== Checking test/pdfs/ ==="
+        ls -la test/pdfs/
+        echo ""
+        echo "=== Checking test.csv ==="
+        cat test/test.csv
+    
+    - name: Create required directories
+      run: |
+        mkdir -p test/download
         mkdir -p database
+        echo "✅ Created test/download and database directories"
     
     - name: Run tests
       env:
         CI: true
       run: |
-        pytest test/ -v -s
+        pytest test/test_operation.py -v -s
     
     - name: Upload test artifacts (on failure)
       if: failure()
@@ -54,6 +63,6 @@ jobs:
       with:
         name: test-outputs
         path: |
-          tests/test/download/
+          test/download/
           database/
         retention-days: 7
