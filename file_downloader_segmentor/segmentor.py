@@ -44,7 +44,7 @@ def images_segmentor(img, img_name):
     # Extract text
     #text = pytesseract.image_to_string(Image.open(image_path), lang="eng").lower()
     text = pytesseract.image_to_string(img, lang="eng").lower()
-
+    print(text)
     
     segment_results = {
     "change_in_management": any(k in text for k in CHANGE_IN_MANAGEMENT_KEYWORDS),

@@ -15,7 +15,7 @@ url_name_csv_path = "url_name.csv"
 raw_csv = "../CF-AN-equities-24-01-2026-to-25-01-2026.csv"
 download_dir = "../pdf_files_unprocessed"
 
-get_files(raw_csv,download_dir, url_name_csv_path)
+#get_files(raw_csv,download_dir, url_name_csv_path)
 
 
 for pdf in os.listdir(download_dir):

@@ -19,7 +19,7 @@ def get_image_from_pdf(pdf_path):
             print(f"❌ PDF not found: {pdf_path}")
             return None
         
-        print(f"📄 Processing PDF: {pdf_path}")
+        #print(f"📄 Processing PDF: {pdf_path}")
         
         # Open PDF with PyMuPDF
         doc = fitz.open(pdf_path)
@@ -41,7 +41,7 @@ def get_image_from_pdf(pdf_path):
         
         doc.close()
         
-        print(f"✅ Image extracted: {img.size[0]}x{img.size[1]} pixels")
+        #print(f"✅ Image extracted: {img.size[0]}x{img.size[1]} pixels")
         return img
         
     except Exception as e:
