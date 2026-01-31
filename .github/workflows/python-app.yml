@@ -25,29 +25,18 @@ jobs:
         curl -LsSf https://astral.sh/uv/install.sh | sh
         echo "$HOME/.cargo/bin" >> $GITHUB_PATH
     
-    - name: Install system dependencies
+    - name: Install system dependencies (only Tesseract, no Poppler)
       run: |
         sudo apt-get update
-        sudo apt-get install -y \
-          tesseract-ocr \
-          tesseract-ocr-eng \
-          poppler-utils \
-          libmagic1 \
-          libxml2 \
-          libxslt1-dev
+        sudo apt-get install -y tesseract-ocr
     
-    - name: Install Python dependencies from pyproject.toml
+    - name: Install Python dependencies
       run: |
         uv sync
     
-    - name: Verify installation
+    - name: Create directories
       run: |
-        uv pip list
-    
-    - name: Create required directories
-      run: |
-        mkdir -p test/download
-        mkdir -p database
+        mkdir -p test/download database
     
     - name: Run tests
       env:
@@ -55,7 +44,7 @@ jobs:
       run: |
         uv run pytest test/test_operation.py -v -s
     
-    - name: Upload test artifacts (on failure)
+    - name: Upload artifacts on failure
       if: failure()
       uses: actions/upload-artifact@v4
       with:
@@ -63,4 +52,3 @@ jobs:
         path: |
           test/download/
           database/
-        retention-days: 7

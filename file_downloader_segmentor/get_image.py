@@ -1,35 +1,51 @@
+import fitz  # PyMuPDF
+from PIL import Image
+import io
+import os
 
-from pdf2image import convert_from_path
-
-
-def get_image_from_pdf(pdf_file_path):
-    # ================= CONFIGURATION =================
-    #PDF_FOLDER = "all_pdf_files_raw"              # Folder containing your PDFs
-    #OUTPUT_FOLDER = "input"  # Where to save first pages
-    DPI = 200                              # Image quality
-    POPPLER_PATH = r"C:/Users/akela/Downloads/Release-25.07.0-0/poppler-25.07.0/Library/bin"  # Update if needed
-    # =================================================
-    try:
-        # Convert ONLY the first page
-        #print(f"Processing: {pdf_file} → extracting first page...")
-        pages = convert_from_path(
-            pdf_file_path,
-            dpi=DPI,
-            poppler_path=POPPLER_PATH,
-            first_page=1,
-            last_page=1  # This ensures only page 1 is converted
-        )
+def get_image_from_pdf(pdf_path):
+    """
+    Extract first page image from PDF using PyMuPDF
+    
+    Args:
+        pdf_path: Path to PDF file
         
-        # Save the first (and only) page
-        if pages:
-            #output_name = os.path.splitext(pdf_file_path)[0] + "_first_page.png"
-            #output_path = os.path.join(OUTPUT_FOLDER, output_name)
-            #pages[0].save(output_path, "PNG")
-            #print(f"Saved: {output_path}")
-            return pages[0]
-        else: 
-            print(f"Warning: No pages extracted from {pdf_file_path}")
+    Returns:
+        PIL.Image object or None if extraction fails
+    """
+    try:
+        # Check if file exists
+        if not os.path.exists(pdf_path):
+            print(f"❌ PDF not found: {pdf_path}")
             return None
+        
+        print(f"📄 Processing PDF: {pdf_path}")
+        
+        # Open PDF with PyMuPDF
+        doc = fitz.open(pdf_path)
+        
+        if len(doc) == 0:
+            print(f"❌ PDF has no pages")
+            doc.close()
+            return None
+        
+        # Get first page
+        page = doc[0]
+        
+        # Render page to image (zoom=2 for better quality)
+        pix = page.get_pixmap(matrix=fitz.Matrix(2, 2))
+        
+        # Convert to PIL Image
+        img_data = pix.tobytes("png")
+        img = Image.open(io.BytesIO(img_data))
+        
+        doc.close()
+        
+        print(f"✅ Image extracted: {img.size[0]}x{img.size[1]} pixels")
+        return img
+        
     except Exception as e:
-        print(f"Failed to process {pdf_file_path}: {e}")
+        print(f"❌ Failed to process {pdf_path}: {e}")
+        import traceback
+        traceback.print_exc()
         return None
