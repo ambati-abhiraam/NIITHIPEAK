@@ -6,10 +6,10 @@ import sys
 from pathlib import Path
 
 # Adds the parent directory to the system path
-#BASE_DIR = Path(__file__).resolve().parent
-#sys.path.append(str(BASE_DIR.parent))
+BASE_DIR = Path(__file__).resolve().parent
+sys.path.append(str(BASE_DIR.parent))
 
-PROJECT_ROOT = Path(__file__).resolve().parent.parent
+PROJECT_ROOT = BASE_DIR.parent
 DATABASE_DIR = PROJECT_ROOT / "database"
 
 
