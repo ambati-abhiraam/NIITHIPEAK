@@ -6,8 +6,11 @@ import sys
 from pathlib import Path
 
 # Adds the parent directory to the system path
-BASE_DIR = Path(__file__).resolve().parent
-sys.path.append(str(BASE_DIR.parent))
+#BASE_DIR = Path(__file__).resolve().parent
+#sys.path.append(str(BASE_DIR.parent))
+
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
+DATABASE_DIR = PROJECT_ROOT / "database"
 
 
 from keywords.keywords import (
@@ -44,7 +47,7 @@ def images_segmentor(img, img_name):
     # Extract text
     #text = pytesseract.image_to_string(Image.open(image_path), lang="eng").lower()
     text = pytesseract.image_to_string(img, lang="eng").lower()
-    print(text)
+    #print(text)
     
     segment_results = {
     "change_in_management": any(k in text for k in CHANGE_IN_MANAGEMENT_KEYWORDS),
@@ -84,7 +87,8 @@ def images_segmentor(img, img_name):
             new_row = [i, img_name]
 
             csv_file = i+"_unprocessed.csv"
-            csv_path = f"../database/{csv_file}"
+            #csv_path = f"../database/{csv_file}"
+            csv_path = DATABASE_DIR / csv_file
             # Open file in 'a' (append) mode
             with open(csv_path, mode="a", newline="") as f:
                 writer = csv.writer(f)
@@ -93,7 +97,8 @@ def images_segmentor(img, img_name):
     if go_to_any==0:
         new_row = ["unprocessed", img_name]
         csv_file = "_unprocessed.csv"
-        csv_path = f"../database/{csv_file}"
+        #csv_path = f"../database/{csv_file}"
+        csv_path = DATABASE_DIR / csv_file
         # Open file in 'a' (append) mode
         with open(csv_path, mode="a", newline="") as f:
             writer = csv.writer(f)
