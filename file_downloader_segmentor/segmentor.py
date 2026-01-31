@@ -89,9 +89,18 @@ def images_segmentor(img, img_name):
             csv_file = i+"_unprocessed.csv"
             #csv_path = f"../database/{csv_file}"
             csv_path = DATABASE_DIR / csv_file
+            
+
+            needs_header = not csv_path.exists() or csv_path.stat().st_size == 0
             # Open file in 'a' (append) mode
             with open(csv_path, mode="a", newline="") as f:
                 writer = csv.writer(f)
+
+                if needs_header:
+                    writer.writerow(["segment", "pdf_name"])
+                    #print(f"✅ Wrote header: ['segment', 'pdf_name']")
+                
+                    #writer.writerow(["segment_name", img_name])
                 writer.writerow(new_row)
         
     if go_to_any==0:
@@ -99,9 +108,17 @@ def images_segmentor(img, img_name):
         csv_file = "_unprocessed.csv"
         #csv_path = f"../database/{csv_file}"
         csv_path = DATABASE_DIR / csv_file
+
+        needs_header = not csv_path.exists() or csv_path.stat().st_size == 0
         # Open file in 'a' (append) mode
         with open(csv_path, mode="a", newline="") as f:
             writer = csv.writer(f)
+
+            if needs_header:
+                writer.writerow(["segment", "pdf_name"])
+                #print(f"✅ Wrote header: ['segment', 'pdf_name']")
+                
+                #writer.writerow(["segment_name", img_name])
             writer.writerow(new_row)
 
 
