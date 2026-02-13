@@ -105,6 +105,8 @@ def keyword_checking(raw_text, type_of_check):
                              "ind as compliant audited consolidated financial results",
                              "ind as compliant consolidated audited financial results",
                              "ind as compliant consolidated financial results",
+
+                             "consolidated statement of unaudited results"
                              
                              ]
     
@@ -113,11 +115,14 @@ def keyword_checking(raw_text, type_of_check):
                           "unaudited standalone ind as compliant financial result",
                           "statement of unaudited financial results",
                           "statement of unaudited standalone financial results",
-                          "statement of un-audited standalone financial results",]
+                          "statement of un-audited standalone financial results",
+                          "statement of unaudited results"]
     
     consolidated_keyword_2=["consolidated"]
 
-    secondary_check =["revenue from operations"]
+    secondary_check =["revenue from operations",
+                      "income from operations",
+                      "total income"]
 
     # 1. Standardize the text: convert to lowercase
     clean_text = raw_text.lower()
@@ -130,7 +135,7 @@ def keyword_checking(raw_text, type_of_check):
     if type_of_check == "consolidated":
         matches_consolidated = [word for word in keywords_consolidated if word in clean_text]
         if matches_consolidated:
-            #print("Consolidated keywords matched:", matches_consolidated)
+            #print("**********************************Consolidated keywords matched:", matches_consolidated)
             matches_secondary_check = [word for word in keywords_secondary_check if word in clean_text]
 
             if matches_secondary_check:
@@ -181,6 +186,7 @@ def get_page_number(folder_path, type_of_check):
         image_path = os.path.join(folder_path, f"page_{i+1}.jpg")
 
         text = extract_text_from_image(image_path)
+        #print(f"Extracted text from {image_path} page number {i}:\n{text}\n{'/'*50}\n")
         if type_of_check == "consolidated":
             check = keyword_checking(text, type_of_check)
         else:

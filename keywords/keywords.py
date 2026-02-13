@@ -296,8 +296,17 @@ ORDER_UPDATE_MOU_KEYWORDS = [
 OUTCOME_OF_BOARDMEETING_KEYWORDS = [
     "board meeting outcome",
     "outcome of board meeting",
+    "qutcome of board meeting",
     "outcome of circular resolution",
-    "outcome of the board meeting"
+    "outcome of the board meeting",
+    "board at its meeting held",
+    "board of directors at its meeting",
+    "board of directors of the company at their meeting",
+    "result release",
+    "meeting of the board of directors",
+    "board of directors in their meeting",
+    "board of directors of the company in its meeting",
+    "jutcome of the board meeting"
 ]
 
 
