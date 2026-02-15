@@ -72,7 +72,7 @@ def setup_test_dirs():
 def downloaded_pdf(setup_test_dirs):
     """Download PDF and return path"""
     print(f"📥 Downloading PDF using test.csv...")
-    get_files(str(TEST_CSV), str(DOWNLOAD_DIR), str(TEST_CSV))
+    get_files(str(TEST_CSV), str(DOWNLOAD_DIR))
     
     downloaded_files = list(DOWNLOAD_DIR.glob("*.pdf"))
     
