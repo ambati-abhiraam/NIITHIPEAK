@@ -5,7 +5,7 @@ import shutil
 import sys
 import os
 
-from file_downloader_downloader.s0_saving_files_to_folder import get_files
+from file_downloader.s0_saving_files_to_folder import get_files
 from file_downloader_segmentor.get_image import get_image_from_pdf
 from file_downloader_segmentor.segmentor import images_segmentor
 
