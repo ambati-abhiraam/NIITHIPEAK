@@ -8,10 +8,15 @@ from difflib import get_close_matches
 # CONFIG - TARGET ROW PATTERNS
 # -----------------------------
 TARGET_ROW_PATTERNS = {
-    "revenue_from_operations": {
-        "keywords": ["revenue", "operations","from"],
+    "total_income": {
+        "keywords": ["total", "income"],
         "min_matches": 2,  # At least 1 keyword must match
         "exclude": ["other"]
+    },
+    "other_income": {
+        "keywords": ["other income", "total other income","other operating income"],
+        "min_matches": 1,  # At least 1 keyword must match
+        "exclude": ["total income","other operating income"]
     },
     "total_expenses": {
         "keywords": ["total", "expense", "expenditure", "before"],
@@ -189,7 +194,7 @@ def find_row_indices(df, target_patterns=TARGET_ROW_PATTERNS,
 # -----------------------------
 # CONVENIENCE FUNCTION
 # -----------------------------
-def get_row_indices(df, search_columns=5, debug=False):
+def get_row_indices(df, search_columns=6, debug=False):
     """
     Get row indices for common financial statement items.
     
@@ -203,12 +208,13 @@ def get_row_indices(df, search_columns=5, debug=False):
     """
     rows = find_row_indices(df, search_columns=search_columns, debug=debug)
     
-    revenue_row = rows.get('revenue_from_operations')
+    total_income_row = rows.get('total_income')
+    other_income_row = rows.get('other_income')
     expenses_row = rows.get('total_expenses')
     pbt_row = rows.get('profit_before_tax')
     comprehensive_income_row = rows.get('total_comprehensive_income')
     
-    return revenue_row, expenses_row, pbt_row, comprehensive_income_row
+    return total_income_row,other_income_row, expenses_row, pbt_row, comprehensive_income_row
 
 # -----------------------------
 # DIAGNOSTIC HELPER
@@ -264,10 +270,10 @@ def get_row_index(df, debug=False):
     
     # Or use convenience function
     #print("\n" + "="*70 + "\n")
-    revenue_row, expenses_row, pbt_row, comprehensive_income_row = get_row_indices(df, debug=False)
+    total_income_row, other_income,expenses_row, pbt_row, comprehensive_income_row = get_row_indices(df, debug=False)
     #print("Using convenience function:")
     #print(f"revenue_row = {revenue_row}")
     #print(f"expenses_row = {expenses_row}")
     #print(f"pbt_row = {pbt_row}")
     #print(f"comprehensive_income_row = {comprehensive_income_row}")
-    return revenue_row, expenses_row, pbt_row, comprehensive_income_row
+    return total_income_row, other_income, expenses_row, pbt_row, comprehensive_income_row

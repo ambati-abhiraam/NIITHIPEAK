@@ -36,15 +36,15 @@ PARENT_DIR = BASE_DIR.parent
 
 
 TARGET_DATES = {
-    "this_quarter": date(2025, 12, 31),
-    "previous_quarter": date(2025, 9, 30),
-    "same_q_last_year": date(2024, 12, 31)
+    "this_quarter": (31, 12, 2025),
+    "previous_quarter": (30, 9, 2025),
+    "same_q_last_year": (31, 12, 2024)
 }
 
 
 
-CSV_LOCATION = PARENT_DIR /"database/financial_results_unprocessed.csv"  # Update with your csv name
-SOURCE_FOLDER = PARENT_DIR / "pdf_files_unprocessed"             # Folder where .png files are
+CSV_LOCATION = PARENT_DIR /"database/outcome_of_boardmeeting_unprocessed.csv"  # Update with your csv name
+SOURCE_FOLDER = PARENT_DIR / "pdf_files_unprocessed_500-1000"             # Folder where .png files are
 DEST_FOLDER = PARENT_DIR / "financial_results/pdfs_to_be_processed"            # Folder where .pdf files go
 
 process_and_copy(CSV_LOCATION, SOURCE_FOLDER, DEST_FOLDER)
@@ -101,8 +101,6 @@ if folder_path.exists() and folder_path.is_dir():
                 
                 
                 file.write(markdown_content.strip() + '\n')
-
-
 
 
             processing_page_number = str(i-1)

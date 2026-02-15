@@ -2,6 +2,7 @@ import markdown
 import pandas as pd
 import io
 import re
+import numpy as np
 
 from column_indices import get_column_index
 from row_indices import get_row_index
@@ -14,7 +15,15 @@ def sanitize_index(val):
 
 import re
 
-def clean_financial_string(val):
+def clean_financial_string(df,row, column):
+
+
+    if row == -1 or column == -1:
+        return np.nan
+
+
+    val = df.iat[row, column]
+
     if not isinstance(val, str):
         return val # Already a number or None
     
@@ -37,9 +46,12 @@ def get_values(markdown_file_path: str, pdf_file_name: str, target_date):
 
     data_json_3 = {
         "pdf_file_name": pdf_file_name,
-        "this_quarter_revenue": -3,
-        "previous_quarter_revenue": -3,
-        "same_quarter_last_year_revenue": -3,
+        "this_quarter_total_income": -3,
+        "previous_quarter_total_income": -3,
+        "same_quarter_last_year_total_income": -3,
+        "this_quarter_other_income": -3,
+        "previous_quarter_other_income": -3,
+        "same_quarter_last_year_other_income": -3,
         "this_quarter_expenses": -3,
         "previous_quarter_expenses": -3,
         "same_quarter_last_year_expenses": -3,
@@ -79,22 +91,26 @@ def get_values(markdown_file_path: str, pdf_file_name: str, target_date):
 
 
     # Apply to your rows
-    revenue_row, expenses_row, pbt_row, comprehensive_income_row = [
+    total_income_row, other_income_row, expenses_row, pbt_row, comprehensive_income_row = [
         sanitize_index(x) for x in get_row_index(df, debug=False)
     ]
-    print("*********************", revenue_row, expenses_row, pbt_row, comprehensive_income_row)
+    print("*********************", total_income_row, other_income_row,expenses_row, pbt_row, comprehensive_income_row)
 
+    
     data_json = {
         "pdf_file_name": pdf_file_name,
-        "this_quarter_revenue": clean_financial_string(df.iat[revenue_row, this_quarter_column]),
-        "previous_quarter_revenue": clean_financial_string(df.iat[revenue_row, previous_quarter_column]),
-        "same_quarter_last_year_revenue": clean_financial_string(df.iat[revenue_row, same_q_last_year_column]),
-        "this_quarter_expenses": clean_financial_string(df.iat[expenses_row, this_quarter_column]),
-        "previous_quarter_expenses": clean_financial_string(df.iat[expenses_row, previous_quarter_column]),
-        "same_quarter_last_year_expenses": clean_financial_string(df.iat[expenses_row, same_q_last_year_column]),
-        "this_quarter_comprehensive_income": clean_financial_string(df.iat[comprehensive_income_row, this_quarter_column]),
-        "previous_quarter_comprehensive_income": clean_financial_string(df.iat[comprehensive_income_row, previous_quarter_column]),
-        "same_quarter_last_year_comprehensive_income": clean_financial_string(df.iat[comprehensive_income_row, same_q_last_year_column]),
+        "this_quarter_total_income": clean_financial_string(df,total_income_row, this_quarter_column),
+        "previous_quarter_total_income": clean_financial_string(df,total_income_row, previous_quarter_column),
+        "same_quarter_last_year_total_income": clean_financial_string(df,total_income_row, same_q_last_year_column),
+        "this_quarter_other_income": clean_financial_string(df,other_income_row, this_quarter_column),
+        "previous_quarter_other_income": clean_financial_string(df,other_income_row, previous_quarter_column),
+        "same_quarter_last_year_other_income": clean_financial_string(df,other_income_row, same_q_last_year_column),
+        "this_quarter_expenses": clean_financial_string(df,expenses_row, this_quarter_column),
+        "previous_quarter_expenses": clean_financial_string(df,expenses_row, previous_quarter_column),
+        "same_quarter_last_year_expenses": clean_financial_string(df,expenses_row, same_q_last_year_column),
+        "this_quarter_comprehensive_income": clean_financial_string(df,comprehensive_income_row, this_quarter_column),
+        "previous_quarter_comprehensive_income": clean_financial_string(df,comprehensive_income_row, previous_quarter_column),
+        "same_quarter_last_year_comprehensive_income": clean_financial_string(df,comprehensive_income_row, same_q_last_year_column),
     }
 
     return data_json

@@ -10,3 +10,13 @@ wheels/
 .venv
 
 all_files
+pdf_files_unprocessed_1-500
+pdf_files_unprocessed_500-1000
+pdfs_morethan3
+financial_results/pdfs_to_be_processed
+financial_results/processed_pdfs
+financial_results/pdfs_not_processed
+financial_results/saved_md_files
+financial_results/usused_files
+financial_results/unused_files
+financial_results/processed_pdf's
