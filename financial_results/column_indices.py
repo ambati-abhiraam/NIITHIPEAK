@@ -317,15 +317,15 @@ MAX_SCAN_ROWS = 6
 
 # Month name variations
 MONTH_NAMES = {
-    1: ['jan', 'january', '1'],
-    2: ['feb', 'february', '2'],
-    3: ['mar', 'march', '3'],
-    4: ['apr', 'april', '4'],
-    5: ['may', '5'],
-    6: ['jun', 'june', '6'],
-    7: ['jul', 'july', '7'],
-    8: ['aug', 'august', '8'],
-    9: ['sep', 'sept', 'september', '9'],
+    1: ['jan', 'january', '1', '01'],
+    2: ['feb', 'february', '2', '02'],
+    3: ['mar', 'march', '3', '03'],
+    4: ['apr', 'april', '4', '04'],
+    5: ['may', '5', '05'],
+    6: ['jun', 'june', '6', '06'],
+    7: ['jul', 'july', '7', '07'],
+    8: ['aug', 'august', '8', '08'],
+    9: ['sep', 'sept', 'september', '9', '09'],
     10: ['oct', 'october', '10'],
     11: ['nov', 'november', '11'],
     12: ['dec', 'december', '12']

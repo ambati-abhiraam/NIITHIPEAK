@@ -13,7 +13,7 @@ from segmentor import images_segmentor
 
 #url_name_csv_path = "url_name.csv"
 #raw_csv = "../CF-AN-equities-24-01-2026-to-25-01-2026.csv"
-download_dir = "../pdf_files_unprocessed"
+download_dir = "../pdf_files_unprocessed_500-1000"
 
 #get_files(raw_csv,download_dir, url_name_csv_path)
 

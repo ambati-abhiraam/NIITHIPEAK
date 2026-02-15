@@ -43,11 +43,11 @@ TARGET_DATES = {
 
 
 
-CSV_LOCATION = PARENT_DIR /"database/outcome_of_boardmeeting_doubt.csv"  # Update with your csv name
-SOURCE_FOLDER = PARENT_DIR / "pdf_files_unprocessed"             # Folder where .png files are
+CSV_LOCATION = PARENT_DIR /"database/outcome_of_boardmeeting_unprocessed.csv"  # Update with your csv name
+SOURCE_FOLDER = PARENT_DIR / "pdf_files_unprocessed_500-1000"             # Folder where .png files are
 DEST_FOLDER = PARENT_DIR / "financial_results/pdfs_to_be_processed"            # Folder where .pdf files go
 
-#process_and_copy(CSV_LOCATION, SOURCE_FOLDER, DEST_FOLDER)
+process_and_copy(CSV_LOCATION, SOURCE_FOLDER, DEST_FOLDER)
 
 
 
